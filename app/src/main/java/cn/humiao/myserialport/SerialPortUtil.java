@@ -31,7 +31,7 @@ public class SerialPortUtil {
      */
     public void openSerialPort() {
         try {
-            serialPort = new SerialPort(new File("/dev/ttyS0"), 9600, 0);
+            serialPort = new SerialPort(new File("/dev/ttyS0"), 115200, 0);
             //调用对象SerialPort方法，获取串口中"读和写"的数据流
             inputStream = serialPort.getInputStream();
             outputStream = serialPort.getOutputStream();
