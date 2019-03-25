@@ -112,6 +112,11 @@ public class SerialPortUtil {
                     e.printStackTrace();
                 }
             }
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
     }

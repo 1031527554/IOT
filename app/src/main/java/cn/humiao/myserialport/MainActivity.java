@@ -1,5 +1,6 @@
 package cn.humiao.myserialport;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +15,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
-    private Button button,button2;
-    private TextView tv1,tv2;
+    private Button button,openButton,closeButton,modeButton;
+    private TextView tv1,tv2,tv3;
     private SerialPortUtil serialPortUtil;
 
     @Override
@@ -23,10 +24,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.btn1);
-        button2 = findViewById(R.id.bt2);
+        openButton = findViewById(R.id.bt2);
+        closeButton = findViewById(R.id.bt3);
+        modeButton = findViewById(R.id.bt4);
         tv1 =  findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
-        button2.setOnClickListener(new View.OnClickListener() {
+        tv3 = findViewById(R.id.tv3);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {                        //测试
+                serialPortUtil.sendSerialPort(Cmd.left);
+            }
+        });
+
+        openButton.setOnClickListener(new View.OnClickListener() {    //打开串口
             @Override
             public void onClick(View v) {
                 serialPortUtil = new SerialPortUtil();
@@ -34,14 +46,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //注册EventBus
-        EventBus.getDefault().register(this);
-        button.setOnClickListener(new View.OnClickListener() {
+        closeButton.setOnClickListener(new View.OnClickListener() {   //关闭串口
             @Override
             public void onClick(View v) {
-                serialPortUtil.sendSerialPort(Cmd.OPEN_DOOR);
+                serialPortUtil.closeSerialPort();
             }
         });
+
+        modeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(MainActivity.this,ModeActivity.class);
+                startActivityForResult(intent,1);
+            }
+
+            protected  void  onActivityResult(int requestCode,int returnCode,Intent date){
+                MainActivity.super.onActivityResult(requestCode,returnCode,date);
+                if(requestCode==1&&returnCode==2) {
+                    String content = date.getStringExtra("date");
+                    tv3.setText(content);
+                }
+            }
+        });
+
+        //注册EventBus
+        EventBus.getDefault().register(this);
+
     }
 
     /**

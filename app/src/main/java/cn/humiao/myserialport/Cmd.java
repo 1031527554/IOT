@@ -5,5 +5,7 @@ package cn.humiao.myserialport;
  */
 
 public interface Cmd {
-    String OPEN_DOOR = "010100000000FFFF";
+    String right = "EECC1001010000000000010000FF";
+    String left = "EECC1001010000000000000000FF";
+    String woring = "EECC1001010000000000000000FF";
 }
