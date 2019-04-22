@@ -12,8 +12,7 @@ import java.io.OutputStream;
 import android_serialport_api.SerialPort;
 
 /**
- * @author by AllenJ on 2018/4/20.
- *
+
  * 通过串口用于接收或发送数据
  */
 
@@ -31,7 +30,7 @@ public class SerialPortUtil {
      */
     public void openSerialPort() {
         try {
-            serialPort = new SerialPort(new File("/dev/ttyS0"), 115200, 0);
+            serialPort = new SerialPort(new File("/dev/ttySAC0"), 115200, 0);
             //调用对象SerialPort方法，获取串口中"读和写"的数据流
             inputStream = serialPort.getInputStream();
             outputStream = serialPort.getOutputStream();
@@ -112,11 +111,7 @@ public class SerialPortUtil {
                     e.printStackTrace();
                 }
             }
-            try {
-                sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
 
         }
     }

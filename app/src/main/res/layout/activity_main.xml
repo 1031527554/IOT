@@ -67,16 +67,16 @@
                 android:id="@+id/bt4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="320dp"
+                android:layout_marginLeft="120dp"
                 android:layout_marginRight="3dp"
                 android:text="模式设置"
-                android:textSize="30dp" />
+                android:textSize="25dp" />
 
             <TextView
                 android:id="@+id/tv3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="320dp"
+                android:layout_marginLeft="120dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/textview"
                 android:text="模式"
@@ -89,7 +89,7 @@
         android:layout_height="150dp"
         android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="120dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
@@ -118,7 +118,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -127,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tvT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="当前温度"
@@ -149,12 +150,12 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:text="+"
                     android:textSize="30dp"/>
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:text="-"
                     android:textSize="30dp"/>
@@ -162,7 +163,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
@@ -170,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tvH"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="当前湿度"
@@ -192,12 +194,12 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:text="+"
                     android:textSize="30dp"/>
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:text="-"
                     android:textSize="30dp"/>
@@ -205,7 +207,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
@@ -235,7 +237,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:text="+"
                     android:textSize="30dp"/>
@@ -248,7 +250,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
@@ -278,12 +280,12 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:text="+"
                     android:textSize="30dp"/>
                 <Button
-                    android:layout_width="100dp"
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:text="-"
                     android:textSize="30dp"/>
@@ -319,6 +321,15 @@
             android:layout_marginTop="10px"
             android:text="消息"
             android:textSize="30dp"/>
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10px"
+            android:textSize="30dp"
+            android:text="调试"/>
     </LinearLayout>
 
 </LinearLayout>

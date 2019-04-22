@@ -1,5 +1,6 @@
 package cn.humiao.myserialport;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,17 +13,22 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import android_usb.Serial;
+
 
 public class MainActivity extends AppCompatActivity {
+    private Context context;
+    private Serial serial ;
     private String TAG = "MainActivity";
     private Button button,openButton,closeButton,modeButton;
-    private TextView tv1,tv2,tv3;
+    private TextView tv1,tv2,tv3,tv4,tvT,tvH;
     private SerialPortUtil serialPortUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
         button = findViewById(R.id.btn1);
         openButton = findViewById(R.id.bt2);
         closeButton = findViewById(R.id.bt3);
@@ -30,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         tv1 =  findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
         tv3 = findViewById(R.id.tv3);
+        tv4 = findViewById(R.id.tv4);
+        tvT = findViewById(R.id.tvT);
+        tvH = findViewById(R.id.tvH);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,15 +50,18 @@ public class MainActivity extends AppCompatActivity {
         openButton.setOnClickListener(new View.OnClickListener() {    //打开串口
             @Override
             public void onClick(View v) {
-                serialPortUtil = new SerialPortUtil();
-                serialPortUtil.openSerialPort();
+              //  serialPortUtil = new SerialPortUtil();
+               // serialPortUtil.openSerialPort();
+                serial = new Serial(context);
+
             }
         });
 
         closeButton.setOnClickListener(new View.OnClickListener() {   //关闭串口
             @Override
             public void onClick(View v) {
-                serialPortUtil.closeSerialPort();
+                //serialPortUtil.closeSerialPort();
+                serial.disconnect();
             }
         });
 
@@ -81,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public void onEventMainThread(String string){
         String signal,message;
         Log.d(TAG,"获取到了从传感器发送到Android主板的串口数据");
-        Date1 dateCollation = new Date1();
+        tv4.setText(string);
+       /* Date1 dateCollation = new Date1();
         dateCollation.setDate(string);
         dateCollation.collation();
         signal = dateCollation.getSignal();
@@ -93,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "0A":
                 tv2.setText(message);
+                tvT.setText(dateCollation.temperature());
+                tvH.setText(dateCollation.humidity());
                 break;
-        }
+        }*/
     }
 }
