@@ -104,6 +104,7 @@ public class SerialPortUtil {
                     int size = inputStream.read(readData);
                     if (size > 0) {
                         String readString = DataUtils.ByteArrToHex(readData, 0, size);
+                        readString = "$"+readString;
                         EventBus.getDefault().post(readString);
                     }
 

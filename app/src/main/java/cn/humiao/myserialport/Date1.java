@@ -16,9 +16,16 @@ public class Date1 {
     public String getSignal(){
         return signal;
     }
-    public void collation(){
-        this.signal = date.substring(28,30);
-        this.message = date.substring(34,46);
+    public void collation() {
+        if (date.substring(0, 1).equals("$")) {    //zigbee 数据
+            this.signal = date.substring(29, 31);
+            this.message = date.substring(35, 47);
+        }
+        if (date.substring(0,1).equals("!"))
+        {
+            this.signal = "!";
+            this.message = date.substring(1);
+        }
     }
     public String humidity(){
         double HH =DataUtils.HexToInt(this.message.substring(4,6));

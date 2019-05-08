@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 import cn.humiao.myserialport.DataUtils;
 
-public  class Serial implements SerialListener {
+public  class Serial  {
     private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     private SerialInputOutputManager mSerialIoManager;
 
@@ -33,18 +33,25 @@ public  class Serial implements SerialListener {
     public static final String INTENT_ACTION_GRANT_USB = BuildConfig.APPLICATION_ID + ".GRANT_USB";
     private String TEMPERATURE_USB_VENDOR_ID="0403";
     private String TEMPERATURE_USB_PRODUCT_ID ="6001";
-    private int deviceId, portNum, baudRate=115200;
-    private String  receiveText ="156156165165";
+    private int deviceId, portNum, baudRate=9600;
+    private String  receiveText ;
     private SerialSocket socket;
-    private boolean initialStart = true;
     private Connected connected = Connected.False;
-    private BroadcastReceiver broadcastReceiver;
-    private boolean isStart = false;
+    private String signal;
 
-    public Serial(Context context) {
-
+    public Serial(Context context ,String TEMPERATURE_USB_VENDOR_ID , String TEMPERATURE_USB_PRODUCT_ID,int baudRate) {
+        this.TEMPERATURE_USB_VENDOR_ID  =TEMPERATURE_USB_VENDOR_ID;
+        this.TEMPERATURE_USB_PRODUCT_ID = TEMPERATURE_USB_PRODUCT_ID;
         mContext = context;
+        this.baudRate = baudRate;
 
+        connect();
+    }
+
+    public Serial(Context context ,String signal,int baudRate){
+        mContext = context;
+        this.signal = signal;
+        this.baudRate = baudRate;
         connect();
     }
 
@@ -68,6 +75,7 @@ public  class Serial implements SerialListener {
             productId = HexDump.toHexString((short) device.getProductId());
             if (vendorId.equals(TEMPERATURE_USB_VENDOR_ID) && productId.equals(TEMPERATURE_USB_PRODUCT_ID)) {
                 sUsbPort = port;
+
             }
         }
         UsbDeviceConnection usbConnection = usbManager.openDevice(sUsbPort.getDriver().getDevice());
@@ -94,8 +102,8 @@ public  class Serial implements SerialListener {
             // for consistency to bluetooth/bluetooth-LE app use same SerialListener and SerialService classes
             onSerialConnect();
 
-            mSerialIoManager = new SerialInputOutputManager(sUsbPort, socket);
-            mExecutor.submit(mSerialIoManager);
+           // mSerialIoManager = new SerialInputOutputManager(sUsbPort, socket);
+           // mExecutor.submit(mSerialIoManager);
 
 
             ReceiveThread receiveThread = new ReceiveThread();
@@ -111,7 +119,7 @@ public  class Serial implements SerialListener {
         socket = null;
     }
 
-    private void send(String str) {
+    public void send(String str) {
         if(connected != Connected.True) {
             Toast.makeText(mContext, "not connected", Toast.LENGTH_SHORT).show();
             return;
@@ -124,30 +132,18 @@ public  class Serial implements SerialListener {
         }
     }
 
-    private void receive(byte[] data) {
-        receiveText=(DataUtils.ByteArrToHex(data));
-    }
-    /*
-     * SerialListener
-     */
-    @Override
+
     public void onSerialConnect() {
         System.out.print("connected");
         connected = Connected.True;
     }
 
-    @Override
     public void onSerialConnectError(Exception e) {
         System.out.print("connection failed: " + e.getMessage());
         disconnect();
     }
 
-    @Override
-    public void onSerialRead(byte[] data) {
-        receive(data);
-    }
 
-    @Override
     public void onSerialIoError(Exception e) {
         System.out.print("connection lost: " + e.getMessage());
         disconnect();
@@ -164,6 +160,13 @@ public  class Serial implements SerialListener {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                try {
+                    receiveText=signal+socket.read();
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
                 EventBus.getDefault().post(receiveText);
 
             }

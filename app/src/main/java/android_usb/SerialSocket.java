@@ -11,6 +11,8 @@ import com.hoho.android.usbserial.util.SerialInputOutputManager;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
+import cn.humiao.myserialport.DataUtils;
+
 public class SerialSocket implements SerialInputOutputManager.Listener {
 
     private static final int WRITE_WAIT_MILLIS = 2000; // 0 blocked infinitely on unprogrammed arduino
@@ -18,17 +20,17 @@ public class SerialSocket implements SerialInputOutputManager.Listener {
     private final BroadcastReceiver disconnectBroadcastReceiver;
 
     private Context context ;
-    private SerialListener listener;
     private UsbDeviceConnection connection;
     private UsbSerialPort serialPort;
     private SerialInputOutputManager ioManager;
+    private String readDate = "";
+    private StringBuilder sb = new StringBuilder();
+    private int a = -1;
 
     SerialSocket() {
         disconnectBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (listener != null)
-                    listener.onSerialIoError(new IOException("background disconnect"));
                 disconnect(); // disconnect now, else would be queued until UI re-attached
             }
         };
@@ -44,12 +46,12 @@ public class SerialSocket implements SerialInputOutputManager.Listener {
         serialPort.setParameters(baudRate, UsbSerialPort.DATABITS_8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);   //打开串口
         serialPort.setDTR(true); // for arduino, ...
         serialPort.setRTS(true);
+
         ioManager = new SerialInputOutputManager(serialPort, this);
         Executors.newSingleThreadExecutor().submit(ioManager);
     }
 
     void disconnect() {
-        listener = null; // ignore remaining data and errors
         if (ioManager != null) {
             ioManager.setListener(null);
             ioManager.stop();
@@ -80,18 +82,29 @@ public class SerialSocket implements SerialInputOutputManager.Listener {
     void write(byte[] data) throws IOException {
         if(serialPort == null)
             throw new IOException("not connected");
-        serialPort.write(data, WRITE_WAIT_MILLIS);
+        serialPort.write(data,WRITE_WAIT_MILLIS);
     }
 
+    String read(){
+        return readDate;
+    }
+
+    void test(byte[] date){
+        if(readDate.length() >= 28){
+            readDate ="";
+        }
+        else {
+            readDate = readDate+DataUtils.ByteArrToHex(date);
+        }
+
+    }
     @Override
     public void onNewData(byte[] data) {
-        if(listener != null)
-            listener.onSerialRead(data);
+        test(data);
     }
 
     @Override
     public void onRunError(Exception e) {
-        if (listener != null)
-            listener.onSerialIoError(e);
+
     }
 }
