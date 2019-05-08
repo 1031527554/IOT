@@ -74,6 +74,7 @@ public class Rfid extends AppCompatActivity {
     }
 
     private void goHome() {
+     //   serial.disconnect();
         Intent intent =  new Intent(Rfid.this,MainActivity.class);
         intent.putExtra("key",imgID);
         startActivity(intent);

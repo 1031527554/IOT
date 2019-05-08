@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -139,10 +138,13 @@ public class MainActivity extends AppCompatActivity {
         ImageView image1 = findViewById(R.id.img1);
         ImageView imageT = findViewById(R.id.imgT);
         ImageView imageH = findViewById(R.id.imgH);
+        ImageView imageC = findViewById(R.id.imgL);
+        ImageView imageL = findViewById(R.id.imgC);
+
 
 
         Glide.with(this)
-                .load(R.mipmap.picture)
+                .load(R.mipmap.picture)  //将来使用网络图片
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(image1);
 
@@ -155,7 +157,21 @@ public class MainActivity extends AppCompatActivity {
                 .load(R.mipmap.shidu)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
                 .into(imageH);
+
+        Glide.with(this)
+                .load(R.mipmap.guangzhao)
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
+                .into(imageL);
+        Glide.with(this)
+                .load(R.mipmap.eryanghuatan)
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
+                .into(imageC);
+
+
+
     }
+
+
 
     /**
      * 用EventBus进行线程间通信，也可以使用Handler
