@@ -17,7 +17,7 @@ import android_usb.Serial;
 
 public class Rfid extends AppCompatActivity {
     private DBManager dbManager;
-    private String imgID="1";
+    private int userID =3;
     private Serial serial;
 
     @Override
@@ -49,8 +49,8 @@ public class Rfid extends AppCompatActivity {
 
                 if(cursor.moveToFirst())
                 {
+                    userID = cursor.getInt(cursor.getColumnIndex("ID"));
                     goHome();
-                    imgID = cursor.getString(cursor.getColumnIndex("imageID"));
                 }
 
             }
@@ -67,8 +67,9 @@ public class Rfid extends AppCompatActivity {
 
         if(cursor.moveToFirst())
         {
+            userID = cursor.getInt(cursor.getColumnIndex("ID"));
+            dbManager.closeDatabase();
             goHome();
-            imgID = cursor.getString(cursor.getColumnIndex("imageID"));
         }
 
     }
@@ -76,7 +77,7 @@ public class Rfid extends AppCompatActivity {
     private void goHome() {
      //   serial.disconnect();
         Intent intent =  new Intent(Rfid.this,MainActivity.class);
-        intent.putExtra("key",imgID);
+        intent.putExtra("key",userID);
         startActivity(intent);
         finish();// 销毁当前活动界面
     }

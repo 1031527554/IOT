@@ -2,6 +2,8 @@ package cn.humiao.myserialport;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,17 +31,18 @@ import java.util.Date;
 import android_usb.Serial;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Context context;
     private Serial serial ;
     private String TAG = "MainActivity";
-    private Button button,openButton,closeButton,modeButton;
-    private TextView time2,time1;
-    private TextView tv1,tv2,tv3,tv4,tvT,tvH;
+    private Button button,openButton,closeButton;
+    private ImageButton imageBt1,imageBt2,imageBt3;
+    private TextView tv1,tv2,tvname,tv4,tvT,tvH,time3,time2,time1;
     private SerialPortUtil serialPortUtil;
-    private String imgID;
+    private int userID;
     private int t_signal = 1;
     private Handler handler;
+    private DBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +52,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        imgID = intent.getStringExtra("key");
+        userID = intent.getIntExtra("key",0);
+
+        dbManager = new DBManager(this);
+        dbManager.openDatabase();
+        SQLiteDatabase db = dbManager.getDatabase();
+        Cursor cursor =  db.rawQuery("SELECT * FROM person WHERE ID = ?",
+                new String[]{String.valueOf(userID)});
+        cursor.moveToFirst();
+        String name = cursor.getString(cursor.getColumnIndex("name"));
+        dbManager.closeDatabase();
 
         context = getApplicationContext();
+
+        imageBt1 = findViewById(R.id.imageBt1);
+        imageBt1.setOnClickListener(this);
+        imageBt2 = findViewById(R.id.imageBt2);
+        imageBt2.setOnClickListener(this);
+        imageBt3 = findViewById(R.id.imageBt3);
+        imageBt3.setOnClickListener(this);
+
         button = findViewById(R.id.btn1);
+        button.setOnClickListener(this);
         openButton = findViewById(R.id.bt2);
+        openButton.setOnClickListener(this);
         closeButton = findViewById(R.id.bt3);
+        closeButton.setOnClickListener(this);
+
         tv1 =  findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
         tv4 = findViewById(R.id.tv4);
@@ -61,8 +86,12 @@ public class MainActivity extends AppCompatActivity {
         tvT = findViewById(R.id.tvT);    //温度
         tvH = findViewById(R.id.tvH);    //湿度
 
+        tvname = findViewById(R.id.name);
+        tvname.setText(name);
+
         time1 = findViewById(R.id.time1);
         time2 = findViewById(R.id.time2);
+        time3 = findViewById(R.id.time3);
         time();
 
         handler = new Handler(){
@@ -81,41 +110,52 @@ public class MainActivity extends AppCompatActivity {
         initViews();//  绘制界面
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {                        //测试
-               // serialPortUtil.sendSerialPort(Cmd.left);
-                serial.send("AA");
-            }
-        });
-
-        openButton.setOnClickListener(new View.OnClickListener() {    //打开串口
-            @Override
-            public void onClick(View v) {
-               // serialPortUtil = new SerialPortUtil();
-               // serialPortUtil.openSerialPort();
-                serial = new Serial(context,"!",115200);
-
-            }
-        });
-
-        closeButton.setOnClickListener(new View.OnClickListener() {   //关闭串口
-            @Override
-            public void onClick(View v) {
-                //serialPortUtil.closeSerialPort();
-                serial.disconnect();
-            }
-        });
-
-
-
-
         //注册EventBus
         EventBus.getDefault().register(this);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt2 :
+                // serialPortUtil = new SerialPortUtil();
+                // serialPortUtil.openSerialPort();
+                serial = new Serial(context,"!",115200);
+                break;
+            case R.id.bt3:
+                //serialPortUtil.closeSerialPort();
+                serial.disconnect();
+                break;
+            case R.id.btn1:
+                // serialPortUtil.sendSerialPort(Cmd.left);
+                serial.send("AA");
+                break;
+            case R.id.imageBt1:
+
+                break;
+            case R.id.imageBt2:
+
+                break;
+            case R.id.imageBt3:
+
+                break;
+            default:
+                break;
+        }
+
+    }
+
     private void time(){
+        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("HH:mm/MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        time3.setText(simpleDateFormat.format(date));
+        dbManager.openDatabase();
+        SQLiteDatabase db = dbManager.getDatabase();
+        db.execSQL("INSERT INTO person(enterTime) values(?)",
+                new String[]{simpleDateFormat.format(date)});
+        dbManager.closeDatabase();
+
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -200,4 +240,5 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
 }
