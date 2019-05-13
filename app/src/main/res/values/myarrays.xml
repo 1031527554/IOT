@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="data">
+        <item>生菜</item>
+        <item>冬瓜</item>
+        <item>南瓜</item>
+        <item>西瓜</item>
+        <item>油麦菜</item>
+        <item>西葫芦</item>
+        <item>丝瓜</item>
+    </string-array>
+</resources>

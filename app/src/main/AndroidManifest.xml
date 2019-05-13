@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.humiao.myserialport">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Rfid"></activity>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/textview2" />
+
+        <activity android:name=".SolveActivity" />
+        <activity android:name=".HistaryDateActivity" />
+        <activity android:name=".CameraActivity" />
+        <activity android:name=".StateActivity" />
+        <activity android:name=".WoringActivity" />
+        <activity android:name=".Rfid" />
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,13 +32,10 @@
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
-
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
         </activity>
-        <activity android:name=".ModeActivity">
-
-        </activity>
+        <activity android:name=".ModeActivity" />
     </application>
 
 </manifest>

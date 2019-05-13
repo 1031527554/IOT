@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Serial serial ;
     private String TAG = "MainActivity";
     private Button button,openButton,closeButton;
-    private ImageButton imageBt1,imageBt2,imageBt3;
+    private ImageButton imageBt1,imageBt2,imageBt3,imageBt4,imageBt5,imageBt6;
     private TextView tv1,tv2,tvname,tv4,tvT,tvH,time3,time2,time1;
     private SerialPortUtil serialPortUtil;
     private int userID;
@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageBt2.setOnClickListener(this);
         imageBt3 = findViewById(R.id.imageBt3);
         imageBt3.setOnClickListener(this);
+        imageBt4 = findViewById(R.id.imageBt4);
+        imageBt4.setOnClickListener(this);
+        imageBt5 = findViewById(R.id.imageBt5);
+        imageBt5.setOnClickListener(this);
+        imageBt6 = findViewById(R.id.imageBt6);
+        imageBt6.setOnClickListener(this);
 
         button = findViewById(R.id.btn1);
         button.setOnClickListener(this);
@@ -132,13 +138,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 serial.send("AA");
                 break;
             case R.id.imageBt1:
-
+                startActivity(new Intent(MainActivity.this,ModeActivity.class));
                 break;
             case R.id.imageBt2:
-
+                startActivity(new Intent(MainActivity.this, WoringActivity.class));
                 break;
             case R.id.imageBt3:
-
+                startActivity(new Intent(MainActivity.this, StateActivity.class));
+                break;
+            case R.id.imageBt4:
+                startActivity(new Intent(MainActivity.this, HistaryDateActivity.class));
+                break;
+            case R.id.imageBt5:
+                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                break;
+            case R.id.imageBt6:
+                startActivity(new Intent(MainActivity.this, SolveActivity.class));
                 break;
             default:
                 break;
@@ -152,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         time3.setText(simpleDateFormat.format(date));
         dbManager.openDatabase();
         SQLiteDatabase db = dbManager.getDatabase();
-        db.execSQL("INSERT INTO person(enterTime) values(?)",
-                new String[]{simpleDateFormat.format(date)});
+        db.execSQL("UPDATE person SET enterTime = ? WHERE ID = ?",
+                new String[]{simpleDateFormat.format(date), String.valueOf(userID)});
         dbManager.closeDatabase();
 
         final Thread thread = new Thread(new Runnable() {
@@ -180,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageView imageH = findViewById(R.id.imgH);
         ImageView imageC = findViewById(R.id.imgL);
         ImageView imageL = findViewById(R.id.imgC);
+        ImageView imageDT = findViewById(R.id.imgDT);
+        ImageView imageDH = findViewById(R.id.imgDH);
 
 
 
@@ -206,9 +223,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .load(R.mipmap.eryanghuatan)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
                 .into(imageC);
-
-
-
+        Glide.with(this)
+                .load(R.mipmap.dishi)
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
+                .into(imageDH);
+        Glide.with(this)
+                .load(R.mipmap.diwen)
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
+                .into(imageDT);
     }
 
 

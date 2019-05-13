@@ -3,25 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ModeActivity"
-    android:orientation="vertical"
+    tools:context=".WoringActivity"
     android:background="#79956D"
-    android:padding="30dp">
+    android:padding="30dp"
+    android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="模式设置"
+        android:text="阈值设置"
         android:textSize="40sp"
         android:textColor="#131213"/>
-    <Spinner
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:entries="@array/data"
-        android:background="@drawable/textview"
-        android:popupBackground="#D7F39BD">
-    </Spinner>
 
     <LinearLayout
         android:layout_marginTop="20dp"
@@ -100,6 +91,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
 
 
 </LinearLayout>
