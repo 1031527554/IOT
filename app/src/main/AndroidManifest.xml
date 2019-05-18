@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/textview2" />
 
         <activity android:name=".SolveActivity" />
         <activity android:name=".HistaryDateActivity" />

@@ -42,7 +42,7 @@ public class DataUtils {
         StringBuilder strBuilder = new StringBuilder();
         for (byte valueOf : inBytArr) {
             strBuilder.append(Byte2Hex(Byte.valueOf(valueOf)));
-            strBuilder.append(" ");
+            strBuilder.append("");
         }
         return strBuilder.toString();
     }

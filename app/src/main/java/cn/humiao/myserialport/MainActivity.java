@@ -37,12 +37,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String TAG = "MainActivity";
     private Button button,openButton,closeButton;
     private ImageButton imageBt1,imageBt2,imageBt3,imageBt4,imageBt5,imageBt6;
-    private TextView tv1,tv2,tvname,tv4,tvT,tvH,time3,time2,time1;
+    private TextView tv1,tv2,tvname,tv4,tvT,tvH,time3,time2,time1,tvL;
     private SerialPortUtil serialPortUtil;
     private int userID;
     private int t_signal = 1;
     private Handler handler;
     private DBManager dbManager;
+    private SenseDate senseDate = new SenseDate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvT = findViewById(R.id.tvT);    //温度
         tvH = findViewById(R.id.tvH);    //湿度
+        tvL =findViewById(R.id.tvL);
 
         tvname = findViewById(R.id.name);
         tvname.setText(name);
@@ -98,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         time1 = findViewById(R.id.time1);
         time2 = findViewById(R.id.time2);
         time3 = findViewById(R.id.time3);
-        time();
 
         handler = new Handler(){
             @Override
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-
+        time();
         initViews();//  绘制界面
 
 
@@ -125,16 +126,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt2 :
-                // serialPortUtil = new SerialPortUtil();
-                // serialPortUtil.openSerialPort();
+                serialPortUtil = new SerialPortUtil();
+                serialPortUtil.openSerialPort();
                 serial = new Serial(context,"!",115200);
                 break;
             case R.id.bt3:
-                //serialPortUtil.closeSerialPort();
+                serialPortUtil.closeSerialPort();
                 serial.disconnect();
                 break;
             case R.id.btn1:
-                // serialPortUtil.sendSerialPort(Cmd.left);
+                serialPortUtil.sendSerialPort(Cmd.left);
                 serial.send("AA");
                 break;
             case R.id.imageBt1:
@@ -186,6 +187,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         thread.start();
     }
+
+
+    private void saveDate(){
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (t_signal == 1){
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    SimpleDateFormat simpleDateFormat =new SimpleDateFormat("HH:mm/MM-dd");
+                    Date date = new Date(System.currentTimeMillis());
+                    dbManager.openDatabase();
+                    SQLiteDatabase db = dbManager.getDatabase();
+                    db.execSQL("INSERT INTO sense(temps,humidity,light,co2,time) values(?,?,?,?,?)",
+                            new String[]{String.valueOf(senseDate.getTemp()), String.valueOf(senseDate.getHumidity()), String.valueOf(senseDate.getLight()), String.valueOf(senseDate.getCo2()),simpleDateFormat.format(date)});
+
+                }
+            }
+        });
+        thread.start();
+    }
+
+
 
 
 
@@ -253,13 +280,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case "!":
                 tv2.setText(message);
             case "02":
-                tv2.setText(message);
+                if (dateCollation.light()==1){
+                    tvL.setText("有光");
+                    serial.send(Cmd.left);
+                }else {
+                    tvL.setText("无光");
+                }
+                senseDate.setLight(dateCollation.light());
                 break;
             case "0A":
                 tv2.setText(message);
                 tvT.setText(dateCollation.temperature());
+                senseDate.setTemp(Double.parseDouble(dateCollation.temperature()));
                 tvH.setText(dateCollation.humidity());
+                senseDate.setHumidity(Double.parseDouble(dateCollation.humidity()));
                 break;
+            case "OD":
+                tv2.setText( dateCollation.light());
+                if (dateCollation.light()==1){
+                    tvL.setText("正常");
+                }else {
+                    tvL.setText("超标");
+                }
+                senseDate.setCo2(dateCollation.light());
         }
     }
 

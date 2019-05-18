@@ -42,4 +42,8 @@ public class Date1 {
         String T1 = df.format ((TH*256+TL)/10);
         return T1;
     }
+    public int light(){
+        int a = DataUtils.HexToInt(this.message.substring(10));
+        return a;
+    }
 }
