@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/temp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
@@ -34,6 +35,7 @@
                 android:gravity="center"/>
 
             <TextView
+                android:id="@+id/soilTemp"
                 android:layout_marginLeft="20dp"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
@@ -44,6 +46,7 @@
                 android:gravity="center"/>
 
             <TextView
+                android:id="@+id/co2"
                 android:layout_marginLeft="20dp"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
@@ -55,11 +58,67 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/temp_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview2"
+                android:text="+"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/temp_sub"
+                android:layout_marginLeft="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview"
+                android:text="—"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/soilTemp_add"
+                android:layout_marginLeft="23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview2"
+                android:text="+"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/soilTemp_sub"
+                android:layout_marginLeft="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview"
+                android:text="—"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/co2_add"
+                android:layout_marginLeft="23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview2"
+                android:text="+"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/co2_sub"
+                android:layout_marginLeft="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview"
+                android:text="—"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@id/humidity"
                 android:layout_marginLeft="10dp"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
@@ -70,6 +129,7 @@
                 android:gravity="center"/>
 
             <TextView
+                android:id="@+id/soilHumidity"
                 android:layout_marginLeft="20dp"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
@@ -80,6 +140,7 @@
                 android:gravity="center"/>
 
             <TextView
+                android:id="@+id/light"
                 android:layout_marginLeft="20dp"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
@@ -88,6 +149,61 @@
                 android:textSize="20sp"
                 android:textColor="#131213"
                 android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/humidity_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview2"
+                android:text="+"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/humidity_sub"
+                android:layout_marginLeft="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview"
+                android:text="—"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/soilHumidity_add"
+                android:layout_marginLeft="23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview2"
+                android:text="+"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/soilHumidity_sub"
+                android:layout_marginLeft="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview"
+                android:text="—"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/light_add"
+                android:layout_marginLeft="23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview2"
+                android:text="+"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/light_sub"
+                android:layout_marginLeft="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview"
+                android:text="—"
+                android:textSize="30sp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -55,7 +55,7 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
        // 权限获取
-        UsbManager usbManager = (UsbManager)getApplicationContext().getSystemService(Context.USB_SERVICE);
+   /*     UsbManager usbManager = (UsbManager)getApplicationContext().getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> usbSerialDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(usbManager);
         //全部端口
         List<UsbSerialPort> usbSerialPorts = new ArrayList<UsbSerialPort>();
@@ -73,7 +73,7 @@ public class Splash extends AppCompatActivity {
                 PendingIntent usbPermissionIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(BuildConfig.APPLICATION_ID + ".GRANT_USB"), 0);
                 usbManager.requestPermission(sUsbPort.getDriver().getDevice(), usbPermissionIntent);
             }
-        }
+        }*/
 
 
 

@@ -3,7 +3,7 @@ package cn.humiao.myserialport;
 
 import java.text.DecimalFormat;
 
-public class Date1 {
+public class Data {
     private String date;
     private String message;
     private String signal;

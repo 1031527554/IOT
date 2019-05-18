@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Handler handler;
     private DBManager dbManager;
     private SenseDate senseDate = new SenseDate();
+    private SenseDate stateDate = new SenseDate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        userID = intent.getIntExtra("key",0);
+        userID = intent.getIntExtra("key",0);  //得到用户ID
+
+        //初始化状态数据
+        stateDate.setTemp(30);
+        stateDate.setHumidity(60);
 
         dbManager = new DBManager(this);
         dbManager.openDatabase();
@@ -135,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 serial.disconnect();
                 break;
             case R.id.btn1:
-                serialPortUtil.sendSerialPort(Cmd.left);
                 serial.send("AA");
                 break;
             case R.id.imageBt1:
@@ -145,7 +149,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, WoringActivity.class));
                 break;
             case R.id.imageBt3:
-                startActivity(new Intent(MainActivity.this, StateActivity.class));
+                Intent intent =  new Intent(MainActivity.this, StateActivity.class);
+                intent.putExtra("temp",stateDate.getTemp());
+                intent.putExtra("humidity",stateDate.getHumidity());
+                startActivity(intent);
                 break;
             case R.id.imageBt4:
                 startActivity(new Intent(MainActivity.this, HistaryDateActivity.class));
@@ -266,11 +273,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 用EventBus进行线程间通信，也可以使用Handler
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(SenseDate senseDate){
+        stateDate =senseDate;
+        System.out.println("111111111111111111111111111111111111");
+    }
+
     public void onEventMainThread(String string){
         String signal,message;
         Log.d(TAG,"获取到了从传感器发送到Android主板的串口数据");
         tv4.setText(string);
-        Date1 dateCollation = new Date1();
+        Data dateCollation = new Data();
         dateCollation.setDate(string);
         dateCollation.collation();
         signal = dateCollation.getSignal();
@@ -292,8 +304,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv2.setText(message);
                 tvT.setText(dateCollation.temperature());
                 senseDate.setTemp(Double.parseDouble(dateCollation.temperature()));
+                if(Double.valueOf(dateCollation.temperature()) > stateDate.getTemp()){
+
+                }
                 tvH.setText(dateCollation.humidity());
                 senseDate.setHumidity(Double.parseDouble(dateCollation.humidity()));
+                if (Double.valueOf(dateCollation.humidity()) > stateDate.getHumidity()){
+
+                }
                 break;
             case "OD":
                 tv2.setText( dateCollation.light());

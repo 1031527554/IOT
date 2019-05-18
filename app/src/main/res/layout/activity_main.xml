@@ -326,12 +326,13 @@
                     android:layout_width="160dp"
                     android:layout_height="145dp"
                     android:src="@mipmap/lishi" />
+
                 <ImageButton
-                    android:background="#79956D"
                     android:id="@+id/imageBt5"
                     android:layout_width="175dp"
                     android:layout_height="145dp"
-                    android:src="@mipmap/shipin"/>
+                    android:background="#79956D"
+                    android:src="@mipmap/shipin" />
                 <ImageButton
                     android:id="@+id/imageBt6"
                     android:background="#79956D"

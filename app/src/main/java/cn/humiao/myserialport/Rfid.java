@@ -32,8 +32,8 @@ public class Rfid extends AppCompatActivity {
 
 
 
-        serial = new Serial(Rfid.this, "",9600);
-        serial.send("AA");
+      //  serial = new Serial(Rfid.this, "",9600);
+      //  serial.send("AA");
         //注册 evenbus
         EventBus.getDefault().register(this);
 
@@ -45,7 +45,7 @@ public class Rfid extends AppCompatActivity {
                 //goHome();
                 SQLiteDatabase db = dbManager.getDatabase();
                 Cursor cursor =  db.rawQuery("SELECT * FROM person WHERE cardID = ?",
-                        new String[]{"0100B24AB54C"});
+                        new String[]{"01008DA2E8C6"});
 
                 if(cursor.moveToFirst())
                 {
@@ -75,7 +75,7 @@ public class Rfid extends AppCompatActivity {
     }
 
     private void goHome() {
-        serial.disconnect();
+     //   serial.disconnect();
         EventBus.getDefault().unregister(this);
         Intent intent =  new Intent(Rfid.this,MainActivity.class);
         intent.putExtra("key",userID);
