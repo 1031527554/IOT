@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DBManager dbManager;
     private SenseDate senseDate = new SenseDate();
     private SenseDate stateDate = new SenseDate();
+    private Websocket websocket = new Websocket();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
         userID = intent.getIntExtra("key",0);  //得到用户ID
+
+        websocket.conect();
+        websocket.sendMessage("wwwwwwwwwwwwwwwwwwww");
+
+
 
         //初始化状态数据
         stateDate.setTemp(30);
